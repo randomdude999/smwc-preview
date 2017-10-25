@@ -13,7 +13,7 @@
             var link = document.createElement('a');
             var secondary_id;
             link.innerHTML = text;
-            link.href = "x-smwc-preview:"+type+","+searchParams.get("id")
+            link.href = "x-smwc-preview:"+type+","+searchParams.get("id");
             if(typeof secondary_id_grabber !== "undefined") {
                 link.href += ","+secondary_id_grabber();
             }
@@ -23,9 +23,9 @@
         }
     }
 
-    if(searchParams.get("p") === "section"
-            && searchParams.get("a") === "details"
-            && searchParams.get("id") !== null) {
+    if(searchParams.get("p") === "section" &&
+            searchParams.get("a") === "details" &&
+            searchParams.get("id") !== null) {
         // this is a details page
         addLink("Preview", "music", "smwmusic");
         addLink("Preview", "music", "brrsamples"); // most brr samples include preview spcs
