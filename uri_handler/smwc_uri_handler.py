@@ -1,34 +1,47 @@
+#!/usr/bin/env python3
 import sys
+import os
+sys.path.append(
+    os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "python_code")
+)
 
+# noinspection PyPep8
 import smwc_preview_start
 
-# 90% of this is validation.
+# 95% of this is validation.
 # You can't even really do any harm if i hadn't done all the validation, but whatevs
 
-if len(sys.argv) != 2:
+
+def error(msg):
+    print(msg)
     sys.exit(1)
 
-params = sys.argv[1].split(',')
+if len(sys.argv) != 2:
+    error("Ivalid number of arguments to script")
+
+if not sys.argv[1].startswith("x-smwc-preview:"):
+    error("invalid protocol")
+params = sys.argv[1].replace("x-smwc-preview:", "").split(',')
 if len(params) not in (2, 3):
-    sys.exit(1)
+    error("Invalid number of comma-separated parameters")
 
 # noinspection PyDictCreation
 result = {}
 
 result['type'] = params[0]
 if result['type'] not in smwc_preview_start.ALL_TYPES:
-    sys.exit(1)
+    error("invalid preview type")
 result['id'] = params[1]
 if not result['id'].isnumeric():
-    sys.exit(1)
+    error("id not numeric")
 if result['type'] in smwc_preview_start.NEEDS_SECONDARY_ID:
     if len(params) != 3:
-        sys.exit(1)
+        error("invalid number of parameters")
     result['secondary_id'] = params[2]
     if not result['secondary_id'].isnumeric():
-        sys.exit(1)
+        error("secondary id not numeric")
 else:
     if len(params) != 2:
-        sys.exit(1)
+        error("invalid number of parameters")
 
 smwc_preview_start.do_stuff(result)
