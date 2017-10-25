@@ -5,6 +5,7 @@ import smwc_sram_play
 ALL_TYPES = ('music', 'smwhack', 'yihack', 'sram')
 NEEDS_SECONDARY_ID = ('sram',)
 
+
 def do_stuff(data):
     if data['type'] == 'music':
         smwc_music_preview.play_id(data['id'])

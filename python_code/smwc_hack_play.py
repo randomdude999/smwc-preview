@@ -4,7 +4,7 @@ import subprocess
 from functools import partial
 from tempfile import mkdtemp
 
-from python_code import common
+import common
 
 
 def apply_flips(is_yi, bps_path):

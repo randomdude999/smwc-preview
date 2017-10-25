@@ -2,7 +2,7 @@ import os
 import subprocess
 from tempfile import mkstemp
 
-from python_code import common
+import common
 
 
 def play_raw_data(data, _):
