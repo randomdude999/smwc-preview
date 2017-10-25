@@ -10,9 +10,19 @@ script_dir = os.path.dirname(os.path.abspath(__file__))
 
 
 def userscript_install():
-    # todo: create userscript mode installer
+    import winreg
+    key = winreg.CreateKey(winreg.HKEY_CLASSES_ROOT, "x-smwc-preview")
+    winreg.SetValue(key, "URL Protocol", winreg.REG_SZ, "")
+    winreg.SetValue(key, "", winreg.REG_SZ, "SMWC Preview Protocol")
+    subkey = winreg.CreateKey(key, "shell\\open\\command")
+    winreg.SetValue(subkey, "", '"%s" "%%1"' % os.path.abspath("uri_handler\\smwc_uri_handler.bat"))
+    winreg.CloseKey(subkey)
+    winreg.CloseKey(key)
+
     with open("install_mode", 'w') as f:
         f.write("userscript_install")
+
+    print("Install userscript.js as a userscript in your browser.")
 
 
 def normal_install():
