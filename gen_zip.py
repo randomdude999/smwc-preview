@@ -1,32 +1,26 @@
 import subprocess
 import zipfile
+import fnmatch
 import os
 
-# this is a little hacky
-# okay, very hacky and also error-prone
-# i'll replace this soon
-
+# needed for building the extension
 chrome_exe = os.environ["CHROME_EXE"]
 
-to_zip = [
-    "native_messaging_host\\chrome_native_messaging_host.bat",
-    "native_messaging_host\\chrome_native_messaging_host.py",
-    "native_messaging_host\\common.py",
-    "native_messaging_host\\smwc_hack_play.py",
-    "native_messaging_host\\smwc_music_preview.py",
-    "native_messaging_host\\smwc_preview.template.json",
-    "native_messaging_host\\smwc_sram_play.py",
-    "chrome_ext\\background.js",
-    "chrome_ext\\content.js",
-    "chrome_ext\\manifest.json",
-    "uri_handler\\smwc_uri_handler.bat",
-    "uri_handler\\smwc_uri_handler.py",
-    "uri_handler\\uri_format.txt",
-    "python_code\\"
-    "gen_settings.py",
-    "install.py",
-    "README.txt",
-    "uninstall.py"
+
+exclude_from_zip = [
+    ".idea",
+    "settings.json",
+    "gen_zip.py",
+    ".gitignore",
+    "chrome_ext.pem",
+    "install_mode",
+    "smwc_preview.zip",
+    os.path.join("*", "error.log"),
+    os.path.join("native_messaging_host", "smwc_preview.json"),
+    ".git",
+    os.path.join("*", "__pycache__"),
+    "*.py[co]",
+    "README_user.txt"
 ]
 
 result = subprocess.run([chrome_exe,
@@ -36,6 +30,20 @@ if result.returncode != 0:
     print(f"chrome exited with error code {result.returncode}")
 
 with zipfile.ZipFile('smwc_preview.zip', 'w', zipfile.ZIP_DEFLATED) as zipf:
-    for x in to_zip:
-        zipf.write(x)
-    zipf.write("chrome_ext.crx")
+    for root, dirs, files in os.walk("."):
+        for x in dirs.copy():  # iterate over copy but modify original, modifying the thing you're iterating is bad and causes cryptic errors
+            root_relative_path = os.path.join(root if root != '.' else '', x)
+            for pattern in exclude_from_zip:
+                if fnmatch.fnmatch(root_relative_path, pattern):
+                    dirs.remove(x)
+                    break
+        for x in files:
+            root_relative_path = os.path.join(root if root != '.' else '', x)
+            include = True
+            for pattern in exclude_from_zip:
+                if fnmatch.fnmatch(root_relative_path, pattern):
+                    include = False
+                    break
+            if include:
+                zipf.write(root_relative_path)
+    zipf.write("README_user.txt", "README.txt")
