@@ -21,6 +21,7 @@ exclude_from_zip = [
     os.path.join("*", "__pycache__"),
     "*.py[co]",
     "README_user.txt",
+    "README.md",
     os.path.join("uri_handler", "uri_format.txt")
 ]
 
