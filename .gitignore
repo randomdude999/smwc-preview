@@ -1,0 +1,6 @@
+chrome_ext.crx
+chrome_ext.pem
+settings.json
+smwc_preview.zip
+native_messaging_host/smwc_preview.json
+.idea

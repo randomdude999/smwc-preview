@@ -1,0 +1,9 @@
+{
+    "name": "randomdude999.smwc_preview",
+    "description": "Allows previewing various things on SMW Central.",
+    "path": "@SCRIPT_PATH@",
+    "type": "stdio",
+    "allowed_origins": [
+        "chrome-extension://hcackkeofmkppfldndfonkeahjgdbmkg/"
+    ]
+}

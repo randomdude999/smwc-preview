@@ -1,0 +1,23 @@
+{
+    "name": "SMW Central Preview",
+    "description": "Adds previews to smwc",
+    "version": "1.0",
+    "permissions": [
+        "https://www.smwcentral.net/*", "nativeMessaging"
+    ],
+    "background": {
+        "scripts": ["background.js"],
+        "persistent": false
+    },
+    "content_scripts": [
+        {
+        "matches": [
+            "https://www.smwcentral.net/*"
+            ],
+        "js": ["content.js"],
+        "run_at": "document_end"
+        }
+    ],
+    "manifest_version": 2,
+    "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnrUNJj84k3VtHbsb3Clb2ayYX56WVR2H1Ou6p5A+nNIzDUwWz9JhtxaPqNndbjcqv1YZc1is2Hx42w9/amQi3+GsUurJ4io4KDIkhsXPU/gjrGhn/vmLZZnAAUS+GWBL74/Ruo2ZmY9jI/5K4jgXkK/E6H4Zgv17+m6yzS59845+uNbqokA7H3mEM/o/HTl72plvdPJTc+QNmimr7HIbRaNXhY+O3EjNXRCgx0tdt4gl0mC0FG3hX/T2+TqxImho02Sh/r+f4Z/IDoxSXYBQU7QpbgqAnV5/Oha3i2H97eCtneP3ipHP3DTQ1sK7nRYS82sUnB5fzNea7QHT+NGzeQIDAQAB"
+}

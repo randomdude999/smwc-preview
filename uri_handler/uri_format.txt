@@ -1,0 +1,6 @@
+
+x-smwc-preview:<type>,<id>[,<id2>]
+
+<type> is one of: music, smwhack, yihack, sram
+<id> is the id of the thing we're previewing
+<id2> is only for sram, it gives the hack this sram file is for
