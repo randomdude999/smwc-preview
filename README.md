@@ -22,12 +22,10 @@ is very strictly verified.
 | Other browsers | No      | Yes        |
 | Windows        | Yes [1] | Yes        |
 | Mac OS X       | Maybe   | No         |
-| Linux          | Yes     | Yes [2]    |
+| Linux          | Yes     | Yes        |
 
 [1] The extension needs to be loaded as an unpacked extension, which shows an
 annoying pop-up every time you start chrome.
-[2] It will work only if you manually associate the "x-smwc-preview" protocol
-with the .py script in uri_handler.
 
 ## Project Structure
 
