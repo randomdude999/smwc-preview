@@ -1,20 +1,26 @@
 #!/usr/bin/env python3
 import sys
 import os
+
 sys.path.append(
-    os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "python_code")
+    os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "python_code"))
 )
 
-# noinspection PyPep8
-import smwc_preview_start
+os.chdir(os.path.join(os.path.dirname(__file__), ".."))
 
-# 95% of this is validation.
-# You can't even really do any harm if i hadn't done all the validation, but whatevs
+# Redirect stdout/stderr to a file for better debugging
+fsock = open(os.path.join(os.path.dirname(__file__), 'error.log'), 'w')
+sys.stdout = sys.stderr = fsock
+
+print(os.getcwd())
+
+import smwc_preview_start
 
 
 def error(msg):
     print(msg)
     sys.exit(1)
+
 
 if len(sys.argv) != 2:
     error("Ivalid number of arguments to script")

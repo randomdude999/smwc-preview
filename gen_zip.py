@@ -20,14 +20,16 @@ exclude_from_zip = [
     ".git",
     os.path.join("*", "__pycache__"),
     "*.py[co]",
-    "README_user.txt"
+    "README_user.txt",
+    os.path.join("uri_handler", "uri_format.txt")
 ]
 
-result = subprocess.run([chrome_exe,
-                         "--pack-extension=" + os.path.abspath("chrome_ext"),
-                         "--pack-extension-key=" + os.path.abspath("chrome_ext.pem")])
-if result.returncode != 0:
-    print(f"chrome exited with error code {result.returncode}")
+if os.path.exists("chrome_ext.pem"):
+    result = subprocess.run([chrome_exe,
+                             "--pack-extension=" + os.path.abspath("chrome_ext"),
+                             "--pack-extension-key=" + os.path.abspath("chrome_ext.pem")])
+    if result.returncode != 0:
+        print(f"chrome exited with error code {result.returncode}")
 
 with zipfile.ZipFile('smwc_preview.zip', 'w', zipfile.ZIP_DEFLATED) as zipf:
     for root, dirs, files in os.walk("."):

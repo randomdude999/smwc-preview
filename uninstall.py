@@ -11,6 +11,10 @@ except FileNotFoundError:
 if install_mode == "userscript_install":
     if sys.platform == 'win32':
         import winreg
+        # y tho
+        winreg.DeleteKey(winreg.HKEY_CURRENT_USER, "Software\\Classes\\x-smwc-preview\\shell\\open\\command")
+        winreg.DeleteKey(winreg.HKEY_CURRENT_USER, "Software\\Classes\\x-smwc-preview\\shell\\open")
+        winreg.DeleteKey(winreg.HKEY_CURRENT_USER, "Software\\Classes\\x-smwc-preview\\shell")
         winreg.DeleteKey(winreg.HKEY_CURRENT_USER, "Software\\Classes\\x-smwc-preview")
 elif install_mode == "normal_install":
     msg_host_name = "randomdude999.smwc_preview"

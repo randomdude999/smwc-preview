@@ -37,7 +37,7 @@ def message(msg, error_icon=False, multi_buttons=False):
 
 
 try:
-    with open(os.path.join("..", "settings.json")) as settings_file:
+    with open("settings.json") as settings_file:
         settings = json.load(settings_file)
 except (json.decoder.JSONDecodeError, FileNotFoundError):
     message("Your settings file is broken - try re-running gen_settings.py", True)
