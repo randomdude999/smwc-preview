@@ -2,7 +2,13 @@
 import json
 import struct
 import sys
+import os
 
+sys.path.append(
+    os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "python_code")
+)
+
+# noinspection PyPep8
 import smwc_preview_start
 
 while True:
