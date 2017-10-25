@@ -16,13 +16,13 @@ exclude_from_zip = [
     "install_mode",
     "smwc_preview.zip",
     os.path.join("*", "error.log"),
-    os.path.join("native_messaging_host", "smwc_preview.json"),
+    os.path.join(".", "native_messaging_host", "smwc_preview.json"),
     ".git",
     os.path.join("*", "__pycache__"),
     "*.py[co]",
     "README_user.txt",
     "README.md",
-    os.path.join("uri_handler", "uri_format.txt")
+    os.path.join(".", "uri_handler", "uri_format.txt")
 ]
 
 if os.path.exists("chrome_ext.pem"):

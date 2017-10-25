@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=SMWC Preview
+Exec=@SCRIPT_PATH@ %u
+Type=Application
+Terminal=false
+MimeType=x-scheme-handler/x-smwc-preview;

@@ -2,6 +2,7 @@
 import os
 import sys
 import shutil
+import subprocess
 
 # i'm not using f-strings here because i want the user to see the "outdated python" message
 
@@ -10,14 +11,23 @@ script_dir = os.path.dirname(os.path.abspath(__file__))
 
 
 def userscript_install():
-    import winreg
-    key = winreg.CreateKey(winreg.HKEY_CURRENT_USER, "Software\\Classes\\x-smwc-preview")
-    winreg.SetValueEx(key, "URL Protocol", 0, winreg.REG_SZ, "")
-    winreg.SetValue(key, "", winreg.REG_SZ, "SMWC Preview")
-    subkey = winreg.CreateKey(key, "shell\\open\\command")
-    winreg.SetValue(subkey, "", winreg.REG_SZ, '"%s" "%%1"' % os.path.abspath("uri_handler\\smwc_uri_handler.bat"))
-    winreg.CloseKey(subkey)
-    winreg.CloseKey(key)
+    if os.name == 'nt':
+        import winreg
+        key = winreg.CreateKey(winreg.HKEY_CURRENT_USER, "Software\\Classes\\x-smwc-preview")
+        winreg.SetValueEx(key, "URL Protocol", 0, winreg.REG_SZ, "")
+        winreg.SetValue(key, "", winreg.REG_SZ, "SMWC Preview")
+        subkey = winreg.CreateKey(key, "shell\\open\\command")
+        winreg.SetValue(subkey, "", winreg.REG_SZ, '"%s" "%%1"' % os.path.abspath("uri_handler\\smwc_uri_handler.bat"))
+        winreg.CloseKey(subkey)
+        winreg.CloseKey(key)
+    else:
+        script_path = os.path.join(script_dir, "uri_handler", "smwc_uri_handler.py")
+        os.chmod(script_path, 0o775)
+        with open("uri_handler/desktop-entry.template.desktop") as f:
+            out = f.read().replace("@SCRIPT_PATH@", script_path)
+        with open(os.path.expanduser("~/.local/share/applications/smwc-preview.desktop"), 'w') as f:
+            f.write(out)
+        subprocess.run(["xdg-mime", "default", "smwc-preview.desktop", "x-scheme-handler/x-smwc-preview"])
 
     with open("install_mode", 'w') as f:
         f.write("userscript_install")
@@ -75,13 +85,13 @@ def main():
             print("You don't have zenity installed. zenity is the way I show "
                   "message boxes (on non-windows systems). Please also install"
                   " that before using this application.\n"
-                  "For linux, it should be in the repos for your os.\n"
-                  "For osx, it's available through homebrew.")
+                  "For linux, it should be in the repos for your os.")
             if sys.platform == 'darwin':
-                print("I hope i'll figure out OSX native dialogs soon but i "
+                print("For osx, it's available through homebrew.\n"
+                      "I hope i'll figure out OSX native dialogs soon but i "
                       "don't have a mac so that could be complicated")
 
-    if os.name == 'nt':
+    if os.name == 'nt' or sys.platform.startswith("linux"):
         inp = input("Install in userscript mode? (this is recommended if you "
                     "don't want to install a developer-mode extension) [Y/n] ")
         if not inp.lower().startswith("n"):

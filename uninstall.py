@@ -16,6 +16,8 @@ if install_mode == "userscript_install":
         winreg.DeleteKey(winreg.HKEY_CURRENT_USER, "Software\\Classes\\x-smwc-preview\\shell\\open")
         winreg.DeleteKey(winreg.HKEY_CURRENT_USER, "Software\\Classes\\x-smwc-preview\\shell")
         winreg.DeleteKey(winreg.HKEY_CURRENT_USER, "Software\\Classes\\x-smwc-preview")
+    else:
+        os.remove(os.path.expanduser("~/.local/share/applications/smwc-preview.desktop"))
 elif install_mode == "normal_install":
     msg_host_name = "randomdude999.smwc_preview"
     if sys.platform == 'win32':
