@@ -11,11 +11,11 @@ script_dir = os.path.dirname(os.path.abspath(__file__))
 
 def userscript_install():
     import winreg
-    key = winreg.CreateKey(winreg.HKEY_CLASSES_ROOT, "x-smwc-preview")
-    winreg.SetValue(key, "URL Protocol", winreg.REG_SZ, "")
-    winreg.SetValue(key, "", winreg.REG_SZ, "SMWC Preview Protocol")
+    key = winreg.CreateKey(winreg.HKEY_CURRENT_USER, "Software\\Classes\\x-smwc-preview")
+    winreg.SetValueEx(key, "URL Protocol", 0, winreg.REG_SZ, "")
+    winreg.SetValue(key, "", winreg.REG_SZ, "SMWC Preview")
     subkey = winreg.CreateKey(key, "shell\\open\\command")
-    winreg.SetValue(subkey, "", '"%s" "%%1"' % os.path.abspath("uri_handler\\smwc_uri_handler.bat"))
+    winreg.SetValue(subkey, "", winreg.REG_SZ, '"%s" "%%1"' % os.path.abspath("uri_handler\\smwc_uri_handler.bat"))
     winreg.CloseKey(subkey)
     winreg.CloseKey(key)
 
@@ -86,6 +86,7 @@ def main():
                     "don't want to install a developer-mode extension) [Y/n] ")
         if not inp.lower().startswith("n"):
             userscript_install()
+            return
 
     normal_install()
     if not os.path.exists(os.path.join(script_dir, "settings.json")):
